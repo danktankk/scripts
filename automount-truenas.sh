@@ -1,20 +1,28 @@
+# for Pop!_OS
+# this was written to get around an issue with mounting shares with fstab and I didnt want to use systemd either so this was the next best thing for my use-case.
+#  Set up crontab -e to run it at boot <@reboot sudo /path/to/script>
+#  Also went visudo and set this file to not require sudo to run so it could mount the sdhares without any further intervention.  <user ALL=(ALL) NOPASSWD: /home/<user>/scripts/automount-truenas.sh>
+#  you will need to install dependencies for cifs, nfs, and iscsi depending on which you want to use.
+#  i.e.  nfs-common, cids-utils, smbclient, open-iscsi
+
+
 #!/bin/bash
 
 # Set the log file path
-log_file="/home/dankk/scripts/scripts.log"
+log_file="/home/<user>/scripts/scripts.log"
 
-# Redirect all output to the log file
+# Redirect all output to the log file - this was for testing the script
 exec > >(tee -a "$log_file") 2>&1
 
-# Function to log and flush output
+# Function to log and flush output - this was for testing the scrip
 log_and_flush() {
     echo "$1"
     sync
 }
 
 # Set variables for the iSCSI target and mount point
-target="/dev/disk/by-id/scsi-36589cfc0000005c4396bf256e82d0db3-part1"
-mount_point="/media/dankk/truenas-iscsi"
+target="/dev/disk/by-id/<disk-id>"
+mount_point="/path/to/mount"
 
 # Create the mount point directory if it doesn't exist
 if [ ! -d "$mount_point" ]; then
@@ -22,7 +30,7 @@ if [ ! -d "$mount_point" ]; then
 fi
 
 # Login to iSCSI target with timeout
-if timeout 20 sudo iscsiadm --mode node --targetname iqn.2005-10.org.freenas.ctl:truenas-iscsi --portal 192.168.160.50 --login; then
+if timeout 20 sudo iscsiadm --mode node --targetname <iqn>:<share> --portal <ip> --login; then
     log_and_flush "iSCSI target login successful"
 else
     log_and_flush "iSCSI target login failed"
@@ -40,15 +48,15 @@ else
 fi
 
 # NFS Share
-nfs_truenas_ip="192.168.160.50"
-nfs_share="/mnt/zpool/deddspace-nas"
-nfs_mount_point="/media/dankk/truenas-nfs"
+nfs_truenas_ip=<"ip">
+nfs_share="/path/to/share"
+nfs_mount_point="/path/to/mount"
 nfs_options="rw,noatime,rsize=131072,wsize=131072,hard,intr,timeo=150,retrans=3"
 
 # SMB Share
-smb_share="//192.168.160.50/deddspace-nas"
-smb_mount_point="/media/dankk/truenas-smb"
-smb_options="vers=3.0,credentials=/home/dankk/.smbcreds,iocharset=utf8,uid=1000,gid=1000,noperm"
+smb_share="//<ip>/<share>"
+smb_mount_point="/path/to/mount"
+smb_options="vers=3.0,credentials=/home/<user>/.smbcreds,iocharset=utf8,uid=1000,gid=1000,noperm"
 
 # Function to mount a share
 mount_share() {
