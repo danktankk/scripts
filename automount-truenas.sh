@@ -14,7 +14,7 @@ log_file="/home/<user>/scripts/scripts.log"
 # Redirect all output to the log file - this was for testing the script
 exec > >(tee -a "$log_file") 2>&1
 
-# Function to log and flush output - this was for testing the scrip
+# Function to log and flush output - this was for testing the script
 log_and_flush() {
     echo "$1"
     sync
