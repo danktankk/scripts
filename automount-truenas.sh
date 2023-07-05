@@ -1,7 +1,7 @@
 # for Pop!_OS
 # this was written to get around an issue with mounting shares with fstab and I didnt want to use systemd either so this was the next best thing for my use-case.
 #  Set up crontab -e to run it at boot <@reboot sudo /path/to/script>
-#  Also went visudo and set this file to not require sudo to run so it could mount the sdhares without any further intervention.  <user ALL=(ALL) NOPASSWD: /home/<user>/scripts/automount-truenas.sh>
+#  Also went into visudo and set this file to not require sudo to run so it could mount the shares without any further intervention.  <user ALL=(ALL) NOPASSWD: /home/<user>/scripts/automount-truenas.sh>
 #  you will need to install dependencies for cifs, nfs, and iscsi depending on which you want to use.
 #  i.e.  nfs-common, cids-utils, smbclient, open-iscsi
 
