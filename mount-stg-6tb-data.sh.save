@@ -1,0 +1,18 @@
+\#!/bin/bash
+
+# Wait for a few seconds to ensure the drive is ready (optional)
+#sleep 10
+
+# Mount the drive by UUID
+mount UUID=ceaf2764-d2db-446b-8b7c-b769f0e0dc70 /mnt/stg-6tb-data -t ext4 -o defaults,noatime,rw
+
+# Change ownership to 'myuser'
+#chown -R myuser:myuser /mnt/stg-6tb-data
+
+
+#!/bin/bash
+
+# Mount NTFS drives
+
+#mount UUID=ceaf2764-d2db-446b-8b7c-b769f0e0dc70 /mnt/stg-6tb-data -t ext4 -o defaults,noatime,rw
+#,uid=1000,gid=1000

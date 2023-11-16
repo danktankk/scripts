@@ -1,0 +1,8 @@
+[Desktop Entry]
+#Version=1.0
+Type=Application
+Terminal=false
+Name=Pause Pi-hole
+Comment=Pause Pi-hole for 5 minutes
+Exec="/home/dankk/Documents/desktop_scripts/pause_piholes.sh"
+Icon=/home/dankk/Documents/desktop_scripts/icons/pihole.png
